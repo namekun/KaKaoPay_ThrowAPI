@@ -61,9 +61,6 @@ create table throw_info
     amount_money bigint       not null,
     people_cnt   bigint       not null
 );
-
-create index throwInfo_token_room_id_index
-    on throw_info (token, room_id);
 ```
 
 *receive_info DDL*
