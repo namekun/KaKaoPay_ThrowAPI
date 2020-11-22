@@ -1,17 +1,18 @@
 package com.kakaopay.throwaway.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
+@RequiredArgsConstructor
+@NoArgsConstructor
 @Table(name= "throw_info")
 public class ThrowEntity implements Serializable {
 
@@ -24,7 +25,7 @@ public class ThrowEntity implements Serializable {
 
     @NonNull
     @Column(name = "user_id")
-    private long userId;
+    private Long userId;
 
     @NonNull
     @Column(name = "room_id")
@@ -32,28 +33,13 @@ public class ThrowEntity implements Serializable {
 
     @NonNull
     @Column(name = "amount_money")
-    private long amount;
+    private Long amount;
 
     @NonNull
     @Column(name = "people_cnt")
-    private long peopleCnt;
+    private Long peopleCnt;
 
     @NonNull
     @Column(name = "reg_dttm")
     private LocalDateTime dateTime;
-
-    public ThrowEntity(String token, String roomId, long userId, long amount, long cnt, LocalDateTime dateTime) {
-        this.token = token;
-        this.roomId = roomId;
-        this.userId = userId;
-        this.amount = amount;
-        this.peopleCnt = cnt;
-        this.dateTime = dateTime;
-    }
-
-    public ThrowEntity() {
-
-    }
-
-
 }

@@ -1,6 +1,8 @@
 package com.kakaopay.throwaway.util;
 
-public interface RandomTokenUtil {
+public interface PublicUtil {
 
    String makeToken(int length);
+
+   long[] divide(long amount, long count);
 }

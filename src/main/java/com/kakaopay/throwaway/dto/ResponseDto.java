@@ -1,6 +1,7 @@
 package com.kakaopay.throwaway.dto;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 

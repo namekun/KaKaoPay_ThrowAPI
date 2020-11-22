@@ -6,13 +6,12 @@ import com.kakaopay.throwaway.dto.RetrieveDto;
 import com.kakaopay.throwaway.dto.RetrieveInfoDto;
 import com.kakaopay.throwaway.entity.ReceiveEntity;
 import com.kakaopay.throwaway.entity.ThrowEntity;
-import com.kakaopay.throwaway.enums.ResponseCodes;
+import com.kakaopay.throwaway.staticcode.ResponseCodes;
 import com.kakaopay.throwaway.repository.ReceiveInfoRepository;
 import com.kakaopay.throwaway.repository.ThrowInfoRepository;
-import com.kakaopay.throwaway.util.RandomTokenUtil;
+import com.kakaopay.throwaway.util.PublicUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,31 +21,24 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.lang.Math.min;
-import static java.lang.Math.toIntExact;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ThrowServiceImpl implements ThrowService {
 
-    private final RandomTokenUtil randomTokenUtil;
+    private final PublicUtil publicUtil;
     private final ThrowInfoRepository throwInfoRepository;
     private final ReceiveInfoRepository receiveInfoRepository;
-
-    @Autowired
-    public ThrowServiceImpl(RandomTokenUtil randomTokenUtil, ThrowInfoRepository throwInfoRepository, ReceiveInfoRepository receiveInfoRepository) {
-        this.randomTokenUtil = randomTokenUtil;
-        this.throwInfoRepository = throwInfoRepository;
-        this.receiveInfoRepository = receiveInfoRepository;
-    }
 
     @Transactional
     @Override
     public ThrowEntity throwing(String roomId, long userId, ThrowRequest throwRequest) {
-        String token = randomTokenUtil.makeToken(3);
-        ThrowEntity throwEntity = new ThrowEntity(token, roomId, userId, throwRequest.amount, throwRequest.cnt, LocalDateTime.now());
+        String token = publicUtil.makeToken(3);
+        ThrowEntity throwEntity = new ThrowEntity(token, userId, roomId, throwRequest.amount, throwRequest.cnt, LocalDateTime.now());
         throwInfoRepository.save(throwEntity);
 
-        long[] divide = divide(throwRequest.amount, throwRequest.cnt);
+        long[] divide = publicUtil.divide(throwRequest.amount, throwRequest.cnt);
         for (long l : divide) {
             // 상세 테이블에 저장
             ReceiveEntity receiveEntity = new ReceiveEntity(token, l);
@@ -87,6 +79,10 @@ public class ThrowServiceImpl implements ThrowService {
         }
 
         // 10분이 지났다면?
+        System.out.println(LocalDateTime.now());
+        System.out.println(throwEntityByToken.getDateTime());
+        System.out.println(throwEntityByToken.getDateTime().plusMinutes(10));
+
         if (LocalDateTime.now().isAfter(throwEntityByToken.getDateTime().plusMinutes(10))) {
             responseCode = ResponseCodes.E103;
             return new ResponseDto(responseCode.code, responseCode.response, null);
@@ -118,8 +114,8 @@ public class ThrowServiceImpl implements ThrowService {
     }
 
     /**
-     * 조회 service
-     *
+     * 조회 기능
+     * @param userId :
      * @param token
      * @return
      */
@@ -128,8 +124,6 @@ public class ThrowServiceImpl implements ThrowService {
         // token 값으로 throw_info 와 receive_info 에서 데이터를 join 해서 가져온다
         // 주의할 점은 뿌린 사람 자신만이 조회할 수 있음.
         // 조회하는 사람이 뿌린사람 본인이 아니거나, token에 해당되는 뿌리기 건이 없다면 실패응답
-
-        ResponseDto result = new ResponseDto(null, null, null);
 
         // 현재 상태에 해당되는 변수
         RetrieveDto retrieveDto;
@@ -177,20 +171,5 @@ public class ThrowServiceImpl implements ThrowService {
                 retrieveInfoList);
 
         return new ResponseDto(responseCode.code, responseCode.response, retrieveDto);
-    }
-
-
-    /**
-     * 금액을 나눈다.
-     */
-    private long[] divide(long amount, long count) {
-        long[] array = new long[toIntExact(count)];
-        long max = RandomUtils.nextLong(amount / count, amount / count * 2);
-        for (int i = 0; i < count - 1; i++) {
-            array[i] = RandomUtils.nextLong(1, min(max, amount));
-            amount -= array[i];
-        }
-        array[toIntExact(count - 1)] = amount;
-        return array;
     }
 }

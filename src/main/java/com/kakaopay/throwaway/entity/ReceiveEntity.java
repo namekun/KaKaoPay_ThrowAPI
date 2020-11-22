@@ -1,15 +1,14 @@
 package com.kakaopay.throwaway.entity;
 
-import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @Entity
-@DynamicUpdate
+@NoArgsConstructor
 @Table(name= "receive_info")
 public class ReceiveEntity implements Serializable {
 
@@ -17,27 +16,28 @@ public class ReceiveEntity implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "object_id", nullable = false)
-    private long objectId;
+    @NonNull
+    @Column(name = "object_id")
+    private Long objectId;
 
-    @Column(name = "token", nullable = false)
+    @NonNull
+    @Column(name = "token")
     private String token;
 
+    @Setter
     @Column(name = "user_id")
-    private long userId;
+    private Long userId;
 
-    @Column(name = "money",nullable = false)
-    private long amount;
+    @NonNull
+    @Column(name = "money")
+    private Long amount;
 
+    @Setter
     @Column(name = "receive_dttm")
     private LocalDateTime dateTime;
 
     public ReceiveEntity(String token, long l) {
         this.token = token;
         this.amount = l;
-    }
-
-    public ReceiveEntity() {
-
     }
 }
