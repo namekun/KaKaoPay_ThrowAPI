@@ -74,6 +74,7 @@ create table receive_info
     user_id      bigint     null,
     receive_dttm datetime   null,
     money        bigint     not null,
+    version      int        null,
     constraint receive_info_throwinfo_token_fk
         foreign key (token) references throw_info (token)
 );

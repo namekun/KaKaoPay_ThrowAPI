@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static java.lang.Math.min;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -31,6 +29,13 @@ public class ThrowServiceImpl implements ThrowService {
     private final ThrowInfoRepository throwInfoRepository;
     private final ReceiveInfoRepository receiveInfoRepository;
 
+    /**
+     * 뿌리기 기능
+     * @param roomId : 방 번호
+     * @param userId : 뿌리는 유저 아이디
+     * @param throwRequest : 뿌리기 요청 [뿌리는 돈 , 받을 수 있는 사람 수]
+     * @return
+     */
     @Transactional
     @Override
     public ThrowEntity throwing(String roomId, long userId, ThrowRequest throwRequest) {
@@ -47,6 +52,13 @@ public class ThrowServiceImpl implements ThrowService {
         return throwEntity;
     }
 
+    /**
+     * 받기 기능
+     * @param roomId : 방 번호
+     * @param userId : 받는 유저의 아이디
+     * @param token : 토큰
+     * @return
+     */
     @Transactional
     @Override
     public ResponseDto receiving(String roomId, long userId, String token) {
@@ -117,16 +129,12 @@ public class ThrowServiceImpl implements ThrowService {
 
     /**
      * 조회 기능
-     * @param userId :
-     * @param token
+     * @param userId : 뿌렸던 유저 아이디
+     * @param token : 토큰 값
      * @return
      */
     @Override
     public ResponseDto retrieving(long userId, String token) {
-        // token 값으로 throw_info 와 receive_info 에서 데이터를 join 해서 가져온다
-        // 주의할 점은 뿌린 사람 자신만이 조회할 수 있음.
-        // 조회하는 사람이 뿌린사람 본인이 아니거나, token에 해당되는 뿌리기 건이 없다면 실패응답
-
         // 현재 상태에 해당되는 변수
         RetrieveDto retrieveDto;
         ArrayList<RetrieveInfoDto> receiverInfoList = new ArrayList<>();

@@ -5,20 +5,18 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
-import java.awt.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Entity
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Table(name= "throw_info")
-public class ThrowEntity implements Serializable {
-
-    private static final long serialVersionUID = -1907520853136143564L;
+public class ThrowEntity{
 
     @Id
     @NonNull

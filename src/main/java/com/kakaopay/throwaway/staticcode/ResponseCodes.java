@@ -2,7 +2,7 @@ package com.kakaopay.throwaway.staticcode;
 
 public enum ResponseCodes {
     S200("200", "정상처리"),
-    E101("101", "생성되지 않았거나 이미 종료된 뿌리기"),
+    E101("101", "이미 종료된 뿌리기"),
     E102("102", "뿌린 사용자와 같은 사용자"),
     E103("103", "시간 초과"),
     E104("104", "잘못된 방번호"),

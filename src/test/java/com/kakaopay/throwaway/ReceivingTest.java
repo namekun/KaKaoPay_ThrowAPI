@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ExtendWith(SpringExtension.class)
 @DisplayName("받기 기능 테스트")
-public class ReceivingTest{
+public class ReceivingTest {
 
     @Autowired
     WebApplicationContext webApplicationContext;

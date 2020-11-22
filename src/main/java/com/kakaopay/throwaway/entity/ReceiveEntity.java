@@ -3,16 +3,14 @@ package com.kakaopay.throwaway.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Table(name= "receive_info")
-public class ReceiveEntity implements Serializable {
-
-    private static final long serialVersionUID = 6383807555985579131L;
+public class ReceiveEntity {
 
     @Id
     @GeneratedValue
@@ -36,8 +34,14 @@ public class ReceiveEntity implements Serializable {
     @Column(name = "receive_dttm")
     private LocalDateTime dateTime;
 
+    // 동시성 제어를 위한 version
+    @Version
+    @Column(name = "version")
+    private int version;
+
     public ReceiveEntity(String token, long l) {
         this.token = token;
         this.amount = l;
     }
+
 }
