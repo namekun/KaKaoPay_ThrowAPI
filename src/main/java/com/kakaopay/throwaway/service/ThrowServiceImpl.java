@@ -35,10 +35,10 @@ public class ThrowServiceImpl implements ThrowService {
     @Override
     public ThrowEntity throwing(String roomId, long userId, ThrowRequest throwRequest) {
         String token = publicUtil.makeToken(3);
-        ThrowEntity throwEntity = new ThrowEntity(token, userId, roomId, throwRequest.amount, throwRequest.cnt, LocalDateTime.now());
+        ThrowEntity throwEntity = new ThrowEntity(token, userId, roomId, throwRequest.amount, throwRequest.count, LocalDateTime.now());
         throwInfoRepository.save(throwEntity);
 
-        long[] divide = publicUtil.divide(throwRequest.amount, throwRequest.cnt);
+        long[] divide = publicUtil.divide(throwRequest.amount, throwRequest.count);
         for (long l : divide) {
             // 상세 테이블에 저장
             ReceiveEntity receiveEntity = new ReceiveEntity(token, l);
@@ -56,15 +56,21 @@ public class ThrowServiceImpl implements ThrowService {
         ResponseDto result = new ResponseDto(null, null, null);
         ReceiveEntity representInfo = null;
 
+        // 기본 데이터 세팅
+        ResponseCodes responseCode = ResponseCodes.S200;
+
+        // 유효하지 않은 토큰값.
+        if(receiveEntityList.size()==0){
+            responseCode = ResponseCodes.E107;
+            return new ResponseDto(responseCode.code, responseCode.response, null);
+        }
+
         for (ReceiveEntity receiveEntity : receiveEntityList) {
             if (receiveEntity.getDateTime() == null) {
                 representInfo = receiveEntity;
                 break;
             }
         }
-
-        // 기본 데이터 세팅
-        ResponseCodes responseCode = ResponseCodes.S200;
 
         // 그렇게 해도 null 이라면? -> 이미 뿌리기가 끝났다는 것
         if (representInfo == null) {
@@ -79,10 +85,6 @@ public class ThrowServiceImpl implements ThrowService {
         }
 
         // 10분이 지났다면?
-        System.out.println(LocalDateTime.now());
-        System.out.println(throwEntityByToken.getDateTime());
-        System.out.println(throwEntityByToken.getDateTime().plusMinutes(10));
-
         if (LocalDateTime.now().isAfter(throwEntityByToken.getDateTime().plusMinutes(10))) {
             responseCode = ResponseCodes.E103;
             return new ResponseDto(responseCode.code, responseCode.response, null);
@@ -127,7 +129,7 @@ public class ThrowServiceImpl implements ThrowService {
 
         // 현재 상태에 해당되는 변수
         RetrieveDto retrieveDto;
-        ArrayList<RetrieveInfoDto> retrieveInfoList = new ArrayList<>();
+        ArrayList<RetrieveInfoDto> receiverInfoList = new ArrayList<>();
         long receivedMoney = 0;
 
         ThrowEntity throwEntity = throwInfoRepository.findOneByToken(token);
@@ -160,7 +162,7 @@ public class ThrowServiceImpl implements ThrowService {
                 retrieveInfoDto.setUserId(receiveEntity.getUserId());
                 retrieveInfoDto.setReceivedMoney(receiveEntity.getAmount());
                 receivedMoney += receiveEntity.getAmount();
-                retrieveInfoList.add(retrieveInfoDto);
+                receiverInfoList.add(retrieveInfoDto);
             }
         }
 
@@ -168,7 +170,7 @@ public class ThrowServiceImpl implements ThrowService {
                 throwEntity.getDateTime(),
                 throwEntity.getAmount()
                 , receivedMoney,
-                retrieveInfoList);
+                receiverInfoList);
 
         return new ResponseDto(responseCode.code, responseCode.response, retrieveDto);
     }

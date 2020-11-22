@@ -14,5 +14,5 @@ public class RetrieveDto implements Serializable {
     private final LocalDateTime throwTime;
     private final long moneyAmount;
     private final long receivedMoneyAmount;
-    private final List<RetrieveInfoDto> retrieveInfoList;
+    private final List<RetrieveInfoDto> receiverInfoList;
 }

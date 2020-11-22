@@ -16,7 +16,7 @@ import static com.kakaopay.throwaway.staticcode.HeaderCodes.USERID;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/api", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api")
 public class ThrowServiceController {
 
     private final ThrowService throwService;

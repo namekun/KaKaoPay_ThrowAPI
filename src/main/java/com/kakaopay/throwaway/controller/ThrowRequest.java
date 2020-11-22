@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class ThrowRequest {
     public long amount;
-    public long cnt;
+    public long count;
 }

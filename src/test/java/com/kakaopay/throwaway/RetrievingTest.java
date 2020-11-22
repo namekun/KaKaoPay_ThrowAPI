@@ -25,6 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @SpringBootTest
+@Transactional
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ExtendWith(SpringExtension.class)
@@ -71,12 +73,6 @@ public class RetrievingTest {
             ReceiveEntity receiveEntity = new ReceiveEntity("ABC", l);
             receiveInfoRepository.save(receiveEntity);
         }
-    }
-
-    @AfterEach
-    void after(){
-        receiveInfoRepository.deleteAllByToken("ABC");
-        throwInfoRepository.deleteAllByToken("ABC");
     }
 
     @Test

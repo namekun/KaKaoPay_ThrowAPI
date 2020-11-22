@@ -6,8 +6,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -42,4 +44,5 @@ public class ThrowEntity implements Serializable {
     @NonNull
     @Column(name = "reg_dttm")
     private LocalDateTime dateTime;
+
 }
