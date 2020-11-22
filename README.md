@@ -225,7 +225,7 @@ create table receive_info
 * 뿌리기가 끝난(10분이 지난) 경우 - `ReceivingTest.isTimeOver()`
 * 이미 주운 사용자가 또 줍기를 눌렀을 경우 - `ReceivingTest.isAlreadyTaken()`
 * 다른 방의 사용자가 주으려고 하는 경우 - `ReceivingTest.isWrongRoom()`
-* 뿌린 사용자가 주으려는 경우 - `isSameUser()`
+* 뿌린 사용자가 주으려는 경우 - `ReceivingTest.isSameUser()`
 
 ### 4. 조회 기능 테스트
 
