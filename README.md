@@ -226,6 +226,8 @@ create table receive_info
 
 ![](/imageForReadMe/TEST.png)
 
+> 관련 테스트는 테스트 옆에 적힌 경로를 보고 가시면, 테스트 하실 수 있습니다.
+
 ### 1. 요청 Header 관련 테스트
 
 * ROOM-ID 가 누락된 경우 - `ThrowRequestTest.nonRoomId()`
@@ -235,7 +237,8 @@ create table receive_info
 
 * 정상적으로 잘 뿌려지는지 확인 - `ThrowingTest.isSave()`
 
-### 3. 받기 기능 관련 테스트
+### 3. 받기 기능 관련 테스트 
+> 모든 테스트는 sample data 삽입 후 실행됩니다.
 
 * 받기 기능 정상 작동 확인 - `ReceivingTest.isSave()`
 * 토큰 값이 다른 경우 - `ReceivingTest.isWrongToken()`
@@ -246,9 +249,9 @@ create table receive_info
 * 뿌린 사용자가 주으려는 경우 - `ReceivingTest.isSameUser()`
 
 ### 4. 조회 기능 테스트
+> 모든 테스트는 sample data 삽입 후 실행됩니다.
 
 * 조회 기능 정상 작동확인 - `RetrievingTest().isRetrieve()`
 * 뿌린 사람과 다른 사람이 조회 요청 - `RetrievingTest().isCorrectUser()`
 * 조회되는 토큰값 없음 - `RetrievingTest().nonExistToken()`
 * 7일이 지난 뿌리기 조회 - `RetrievingTest().after7Days()`
-
