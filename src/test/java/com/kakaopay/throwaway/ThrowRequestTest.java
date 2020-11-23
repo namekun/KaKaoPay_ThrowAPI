@@ -23,6 +23,7 @@ public class ThrowRequestTest {
     @Test
     @DisplayName("ROOM-ID 식별값 누락 테스트")
     void nonRoomId() throws Exception {
+        //when //then
         mockMvc.perform(
                 post("/throwing")
                 .header(HeaderCodes.USERID, "12345"))
@@ -33,6 +34,7 @@ public class ThrowRequestTest {
     @Test
     @DisplayName("USER-ID 식별값 누락 테스트")
     void nonUserId() throws Exception {
+        //when //then
         mockMvc.perform(
                 post("/throwing")
                         .header(HeaderCodes.ROOMID, "room1"))

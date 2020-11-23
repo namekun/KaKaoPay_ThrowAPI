@@ -82,6 +82,7 @@ public class ReceivingTest {
         String roomId = "room_test_receiving";
         String userId = "1234";
         String token = "ABC";
+        
         //when
         mockMvc.perform(
                 patch("/api/receiving/" + token)
@@ -149,6 +150,7 @@ public class ReceivingTest {
         receiveEntity.setDateTime(LocalDateTime.now());
         receiveInfoRepository.save(receiveEntity);
 
+        // when
         mockMvc.perform(
                 patch("/api/receiving/" + token)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -175,6 +177,7 @@ public class ReceivingTest {
         receiveEntity.setDateTime(LocalDateTime.now());
         receiveInfoRepository.save(receiveEntity);
 
+        //when
         mockMvc.perform(
                 patch("/api/receiving/" + token)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)

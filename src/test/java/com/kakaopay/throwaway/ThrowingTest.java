@@ -62,8 +62,8 @@ public class ThrowingTest {
         ThrowRequest throwRequest = new ThrowRequest();
         throwRequest.setCount(5);
         throwRequest.setAmount(10000);
-        // when
 
+        // when
         mockMvc.perform(
                 post("/api/throwing")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -72,6 +72,7 @@ public class ThrowingTest {
                         .header(USERID, userId)
                         .content(objectMapper.writeValueAsString(throwRequest)))
                 .andDo(print())
+                // then
                 .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.S_200.code));
     }
 }
