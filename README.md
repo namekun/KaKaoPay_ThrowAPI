@@ -251,7 +251,7 @@ create table receive_info
 ### 4. 조회 기능 테스트
 > 모든 테스트는 sample data 삽입 후 실행됩니다.
 
-* 조회 기능 정상 작동확인 - `RetrievingTest().isRetrieve()`
-* 뿌린 사람과 다른 사람이 조회 요청 - `RetrievingTest().isCorrectUser()`
-* 조회되는 토큰값 없음 - `RetrievingTest().nonExistToken()`
-* 7일이 지난 뿌리기 조회 - `RetrievingTest().after7Days()`
+* 조회 기능 정상 작동확인 - `RetrievingTest.isRetrieve()`
+* 뿌린 사람과 다른 사람이 조회 요청 - `RetrievingTest.isCorrectUser()`
+* 조회되는 토큰값 없음 - `RetrievingTest.nonExistToken()`
+* 7일이 지난 뿌리기 조회 - `RetrievingTest.after7Days()`
