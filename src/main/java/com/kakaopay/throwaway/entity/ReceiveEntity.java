@@ -1,6 +1,9 @@
 package com.kakaopay.throwaway.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,7 +34,7 @@ public class ReceiveEntity {
 
     @Setter
     @Column(name = "receive_dttm")
-    private LocalDateTime dateTime;
+    private LocalDateTime dateTime; // 유저가 돈을 받아간 시간
 
     // 동시성 제어를 위한 version
     @Version

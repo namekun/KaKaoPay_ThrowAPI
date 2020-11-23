@@ -2,9 +2,9 @@ package com.kakaopay.throwaway.controller;
 
 import com.kakaopay.throwaway.dto.ResponseDto;
 import com.kakaopay.throwaway.entity.ThrowEntity;
-import com.kakaopay.throwaway.staticcode.ResponseCodes;
 import com.kakaopay.throwaway.repository.ThrowInfoRepository;
 import com.kakaopay.throwaway.service.ThrowService;
+import com.kakaopay.throwaway.staticcode.ResponseCodes;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +19,7 @@ public class ThrowServiceController {
 
     private final ThrowService throwService;
     private final ThrowInfoRepository throwInfoRepository;
+
 
     @Autowired
     public ThrowServiceController(ThrowService throwService, ThrowInfoRepository throwInfoRepository) {

@@ -31,8 +31,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
 @Transactional
@@ -149,7 +149,7 @@ public class RetrievingTest {
     void after7Days() throws Exception {
         // given
         ThrowEntity throwEntity = throwInfoRepository.findOneByToken("ABC");
-        throwEntity.setDateTime(throwEntity.getDateTime().minusDays(7).minusSeconds(1)); // 정말정말 재수없을땐 현재가 xx1.9xxx 이고 7일전이 xxx2.0xxx 가 되는 경우가 있어서 minus 1sec을 해주었다.
+        throwEntity.setDateTime(throwEntity.getDateTime().minusDays(7).minusSeconds(1)); // 현재가 xx1.9xxx 이고 7일전이 xxx2.0xxx 가 되는 경우가 있어서 minus 1sec을 해주었다.
         throwInfoRepository.save(throwEntity);
 
         // given

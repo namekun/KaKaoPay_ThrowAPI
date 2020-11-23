@@ -6,9 +6,9 @@ import com.kakaopay.throwaway.dto.RetrieveDto;
 import com.kakaopay.throwaway.dto.RetrieveInfoDto;
 import com.kakaopay.throwaway.entity.ReceiveEntity;
 import com.kakaopay.throwaway.entity.ThrowEntity;
-import com.kakaopay.throwaway.staticcode.ResponseCodes;
 import com.kakaopay.throwaway.repository.ReceiveInfoRepository;
 import com.kakaopay.throwaway.repository.ThrowInfoRepository;
+import com.kakaopay.throwaway.staticcode.ResponseCodes;
 import com.kakaopay.throwaway.util.PublicUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -130,7 +130,7 @@ public class ThrowServiceImpl implements ThrowService {
             responseCode = ResponseCodes.E_108;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
-        result.setValue(representInfo.getAmount());
+        result.setValue(representInfo.getReceivedMoney());
 
         return result;
     }
@@ -176,8 +176,8 @@ public class ThrowServiceImpl implements ThrowService {
             if (receiveEntity.getUserId() != null && receiveEntity.getDateTime()!=null) {
                 RetrieveInfoDto retrieveInfoDto = new RetrieveInfoDto();
                 retrieveInfoDto.setUserId(receiveEntity.getUserId());
-                retrieveInfoDto.setReceivedMoney(receiveEntity.getAmount());
-                receivedMoney += receiveEntity.getAmount();
+                retrieveInfoDto.setReceivedMoney(receiveEntity.getReceivedMoney());
+                receivedMoney += receiveEntity.getReceivedMoney();
                 receiverInfoList.add(retrieveInfoDto);
             }
         }

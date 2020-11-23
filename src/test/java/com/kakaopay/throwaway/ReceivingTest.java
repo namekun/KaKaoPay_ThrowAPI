@@ -11,14 +11,15 @@ import com.kakaopay.throwaway.staticcode.ResponseCodes;
 import com.kakaopay.throwaway.util.PublicUtil;
 import com.kakaopay.throwaway.util.PublicUtilImpl;
 import org.apache.commons.lang3.RandomUtils;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -191,7 +192,7 @@ public class ReceivingTest {
     void isTimeOver() throws Exception {
         // given
         ThrowEntity throwEntity = throwInfoRepository.findOneByToken("ABC");
-        throwEntity.setDateTime(throwEntity.getDateTime().minusMinutes(10).minusSeconds(1)); // 정말정말 재수없을땐 현재가 xx1.9xxx 이고 10분전이 xxx2.0xxx 가 되는 경우가 있어서 minus 1sec을 해주었다.
+        throwEntity.setDateTime(throwEntity.getDateTime().minusMinutes(10).minusSeconds(1)); // 현재가 xx1.9xxx 이고 10분전이 xxx2.0xxx 가 되는 경우가 있어서 minus 1sec을 해주었다.
         throwInfoRepository.save(throwEntity);
 
         String roomId = "room_test_receiving";
