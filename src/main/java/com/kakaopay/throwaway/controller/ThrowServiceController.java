@@ -7,9 +7,7 @@ import com.kakaopay.throwaway.repository.ThrowInfoRepository;
 import com.kakaopay.throwaway.service.ThrowService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import static com.kakaopay.throwaway.staticcode.HeaderCodes.ROOMID;
 import static com.kakaopay.throwaway.staticcode.HeaderCodes.USERID;
@@ -36,7 +34,7 @@ public class ThrowServiceController {
 
         ThrowEntity throwEntity = throwService.throwing(roomId, userId, throwRequest);
         throwInfoRepository.save(throwEntity);
-        ResponseCodes apiResponseCode = ResponseCodes.S200;
+        ResponseCodes apiResponseCode = ResponseCodes.S_200;
 
         return new ResponseDto(apiResponseCode.code, apiResponseCode.response, throwEntity.getToken());
     }

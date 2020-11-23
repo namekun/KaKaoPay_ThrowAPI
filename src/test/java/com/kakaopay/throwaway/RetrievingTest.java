@@ -11,7 +11,6 @@ import com.kakaopay.throwaway.staticcode.ResponseCodes;
 import com.kakaopay.throwaway.util.PublicUtil;
 import com.kakaopay.throwaway.util.PublicUtilImpl;
 import org.apache.commons.lang3.RandomUtils;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -102,7 +101,7 @@ public class RetrievingTest {
                 .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.S200.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.S_200.code));
     }
 
     @Test
@@ -122,7 +121,7 @@ public class RetrievingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E107.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_107.code));
     }
 
     @Test
@@ -142,7 +141,7 @@ public class RetrievingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E106.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_106.code));
     }
 
     @Test
@@ -167,7 +166,7 @@ public class RetrievingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E103.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_103.code));
     }
 
 }

@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -89,7 +90,7 @@ public class ReceivingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.S200.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.S_200.code));
     }
 
     @Test
@@ -109,7 +110,7 @@ public class ReceivingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E107.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_107.code));
     }
 
     @Test
@@ -129,7 +130,7 @@ public class ReceivingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E104.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_104.code));
     }
 
     @Test
@@ -155,7 +156,7 @@ public class ReceivingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E102.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_102.code));
     }
 
     @Test
@@ -181,7 +182,7 @@ public class ReceivingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E105.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_105.code));
     }
 
 
@@ -206,7 +207,7 @@ public class ReceivingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E103.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_103.code));
     }
 
     @Test
@@ -235,6 +236,6 @@ public class ReceivingTest {
                         .header(HeaderCodes.USERID, userId))
                 .andDo(print())
                 //then
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E101.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.E_101.code));
     }
 }

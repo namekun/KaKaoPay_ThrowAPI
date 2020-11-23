@@ -5,13 +5,11 @@ import com.kakaopay.throwaway.controller.ThrowRequest;
 import com.kakaopay.throwaway.repository.ReceiveInfoRepository;
 import com.kakaopay.throwaway.repository.ThrowInfoRepository;
 import com.kakaopay.throwaway.staticcode.ResponseCodes;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -74,6 +72,6 @@ public class ThrowingTest {
                         .header(USERID, userId)
                         .content(objectMapper.writeValueAsString(throwRequest)))
                 .andDo(print())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.S200.code));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.responseCode").value(ResponseCodes.S_200.code));
     }
 }

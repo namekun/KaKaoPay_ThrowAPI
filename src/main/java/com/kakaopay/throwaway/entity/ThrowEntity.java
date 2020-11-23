@@ -21,26 +21,25 @@ public class ThrowEntity{
     @Id
     @NonNull
     @Column(name="token")
-    private String token;
+    private String token; // 토큰
 
     @NonNull
     @Column(name = "user_id")
-    private Long userId;
+    private Long userId; // 유저 아이디
 
     @NonNull
     @Column(name = "room_id")
-    private String roomId;
+    private String roomId; // 방 번호
 
     @NonNull
     @Column(name = "amount_money")
-    private Long amount;
+    private Long amount; // 뿌릴 돈의 총합
 
     @NonNull
     @Column(name = "people_cnt")
-    private Long peopleCnt;
+    private Long peopleCnt; // 나눠 받을 수 있는 사람의 수
 
     @NonNull
     @Column(name = "reg_dttm")
-    private LocalDateTime dateTime;
-
+    private LocalDateTime dateTime; // 뿌리기 등록 시간
 }

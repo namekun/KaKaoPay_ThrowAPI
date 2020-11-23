@@ -12,6 +12,7 @@ import com.kakaopay.throwaway.repository.ThrowInfoRepository;
 import com.kakaopay.throwaway.util.PublicUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +32,9 @@ public class ThrowServiceImpl implements ThrowService {
 
     /**
      * 뿌리기 기능
-     * @param roomId : 방 번호
-     * @param userId : 뿌리는 유저 아이디
+     *
+     * @param roomId       : 방 번호
+     * @param userId       : 뿌리는 유저 아이디
      * @param throwRequest : 뿌리기 요청 [뿌리는 돈 , 받을 수 있는 사람 수]
      * @return
      */
@@ -54,9 +56,10 @@ public class ThrowServiceImpl implements ThrowService {
 
     /**
      * 받기 기능
+     *
      * @param roomId : 방 번호
      * @param userId : 받는 유저의 아이디
-     * @param token : 토큰
+     * @param token  : 토큰
      * @return
      */
     @Transactional
@@ -69,11 +72,11 @@ public class ThrowServiceImpl implements ThrowService {
         ReceiveEntity representInfo = null;
 
         // 기본 데이터 세팅
-        ResponseCodes responseCode = ResponseCodes.S200;
+        ResponseCodes responseCode = ResponseCodes.S_200;
 
         // 유효하지 않은 토큰값.
-        if(receiveEntityList.size()==0){
-            responseCode = ResponseCodes.E107;
+        if (receiveEntityList.size() == 0) {
+            responseCode = ResponseCodes.E_107;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
@@ -86,32 +89,32 @@ public class ThrowServiceImpl implements ThrowService {
 
         // 그렇게 해도 null 이라면? -> 이미 뿌리기가 끝났다는 것
         if (representInfo == null) {
-            responseCode = ResponseCodes.E101;
+            responseCode = ResponseCodes.E_101;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
         // 본인이 뿌린거라면?
         if (throwEntityByToken.getUserId() == userId) {
-            responseCode = ResponseCodes.E102;
+            responseCode = ResponseCodes.E_102;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
         // 10분이 지났다면?
         if (LocalDateTime.now().isAfter(throwEntityByToken.getDateTime().plusMinutes(10))) {
-            responseCode = ResponseCodes.E103;
+            responseCode = ResponseCodes.E_103;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
         // 방번호가 틀리다면?
         if (!Objects.equals(throwEntityByToken.getRoomId(), roomId)) {
-            responseCode = ResponseCodes.E104;
+            responseCode = ResponseCodes.E_104;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
         // 이미 한번 주운 사용자라면?
         ReceiveEntity isAlreadyTake = receiveInfoRepository.findByTokenAndUserId(token, userId);
         if (isAlreadyTake != null) {
-            responseCode = ResponseCodes.E105;
+            responseCode = ResponseCodes.E_105;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
@@ -121,7 +124,12 @@ public class ThrowServiceImpl implements ThrowService {
         // 데이터를 가져왔으면, 해당 데이터의 receive_dttm 를 update
         representInfo.setDateTime(LocalDateTime.now());
         representInfo.setUserId(userId);
-        receiveInfoRepository.save(representInfo);
+        try {
+            receiveInfoRepository.save(representInfo);
+        } catch (ObjectOptimisticLockingFailureException e) { // 동시성 에러 발생시, catch 문으로 응답을 날려준다.
+            responseCode = ResponseCodes.E_108;
+            return new ResponseDto(responseCode.code, responseCode.response, null);
+        }
         result.setValue(representInfo.getAmount());
 
         return result;
@@ -129,8 +137,9 @@ public class ThrowServiceImpl implements ThrowService {
 
     /**
      * 조회 기능
+     *
      * @param userId : 뿌렸던 유저 아이디
-     * @param token : 토큰 값
+     * @param token  : 토큰 값
      * @return
      */
     @Override
@@ -142,30 +151,29 @@ public class ThrowServiceImpl implements ThrowService {
 
         ThrowEntity throwEntity = throwInfoRepository.findOneByToken(token);
 
-        ResponseCodes responseCode = ResponseCodes.S200;
+        ResponseCodes responseCode = ResponseCodes.S_200;
 
         // token 값으로 조회되는 값이 없다면?
         if (throwEntity == null) {
-            responseCode = ResponseCodes.E107;
+            responseCode = ResponseCodes.E_107;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
         // 뿌린자와 요청한자의 id가 다를경우?
         if (throwEntity.getUserId() != userId) {
-            responseCode = ResponseCodes.E106;
+            responseCode = ResponseCodes.E_106;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
         // 뿌린지 7일이 지났다면?
         if (LocalDateTime.now().isAfter(throwEntity.getDateTime().plusDays(7))) {
-            responseCode = ResponseCodes.E103;
+            responseCode = ResponseCodes.E_103;
             return new ResponseDto(responseCode.code, responseCode.response, null);
         }
 
         List<ReceiveEntity> receiveEntityList = receiveInfoRepository.findByToken(token);
         for (ReceiveEntity receiveEntity : receiveEntityList) {
-            // 시간이 있는 컬럼은 누군가가 받아간 컬럼
-            if (receiveEntity.getDateTime() != null) {
+            if (receiveEntity.getUserId() != null && receiveEntity.getDateTime()!=null) {
                 RetrieveInfoDto retrieveInfoDto = new RetrieveInfoDto();
                 retrieveInfoDto.setUserId(receiveEntity.getUserId());
                 retrieveInfoDto.setReceivedMoney(receiveEntity.getAmount());

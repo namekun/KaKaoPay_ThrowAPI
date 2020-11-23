@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Table(name= "receive_info")
 public class ReceiveEntity {
@@ -16,19 +15,19 @@ public class ReceiveEntity {
     @GeneratedValue
     @NonNull
     @Column(name = "object_id")
-    private Long objectId;
+    private Long objectId; // 구분을 위한 pk
 
     @NonNull
     @Column(name = "token")
-    private String token;
+    private String token; // 토큰 값
 
     @Setter
     @Column(name = "user_id")
-    private Long userId;
+    private Long userId; // 유저 아이디
 
     @NonNull
     @Column(name = "money")
-    private Long amount;
+    private Long receivedMoney; // 받는 돈의 액수
 
     @Setter
     @Column(name = "receive_dttm")
@@ -37,11 +36,11 @@ public class ReceiveEntity {
     // 동시성 제어를 위한 version
     @Version
     @Column(name = "version")
-    private int version;
+    private Integer version;
 
     public ReceiveEntity(String token, long l) {
         this.token = token;
-        this.amount = l;
+        this.receivedMoney = l;
     }
 
 }
